@@ -1,0 +1,99 @@
+
+# Überprüfen, ob das Skript als Administrator ausgeführt wird
+# Prüfen, ob das Skript als Administrator ausgeführt wird
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        Write-Host "Willkommen" -ForegroundColor Green
+    Write-Host "Dieses Programm wurde nicht als Administrator ausgeführt" -ForegroundColor Red
+    Write-Host "Dieses Programm wird jetzt geschlossen" -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    Write-Host "Dieses Programm wird als Administrator gestartet." -ForegroundColor Green
+    Start-Sleep -Seconds 2 # Kurze Pause, um die Meldung anzuzeigen
+    # Skript als Administrator neu starten
+    Start-Process powershell.exe -Verb RunAs -ArgumentList ("-File $($MyInvocation.MyCommand.Path) $args")
+    exit # Skript beenden
+}
+
+# Überprüfen, ob die Datei aktualisiert wurde
+$desktopPath = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
+$folderPath = Join-Path $desktopPath "EHelps"
+$filePath = Join-Path $folderPath "EHelps"
+if (Test-Path $filePath) {
+    $lastWriteTime = (Get-Item $filePath).LastWriteTime
+    if ($lastWriteTime -lt (Get-Date).AddDays(-1)) {
+            Write-host
+    " 
+    EEEEEEEEE RRRRR      RRRRR      OOOO     RRRRR   
+    E         R     R   R     R   OO    OO   R     R 
+    E         R    RR   R    RR  O        O  R    RR
+    EEEEE     RRRRR     RRRRR    O        O  RRRRR
+    E         R    R    R    R   O        O  R    R 
+    E         R     R   R     R   OO    OO   R     R
+    EEEEEEEEE R      R  R      R    OOOO     R      R
+
+    "
+        Write-Host "Hallo, dies ist die alte Version. Wir aktualisieren das Programm." -ForegroundColor Yellow
+        Write-Host "[System] Version wird aktualisiert..." -NoNewline
+        for ($i = 1; $i -le 10; $i++) {
+            Start-Sleep -Milliseconds (Get-Random -Minimum 500 -Maximum 1000)
+            Write-Host "$i%" -NoNewline
+        }
+        Write-Host "100%" -ForegroundColor Green
+        Start-Sleep -Seconds (Get-Random -Minimum 5 -Maximum 10)
+        Write-Host "Programm aktualisiert. Starte neu..." -ForegroundColor Green
+        Start-Sleep -Seconds 2
+        & $MyInvocation.MyCommand.Definition
+        exit
+    }
+    else {
+        Write-Host "Hallo, dies ist die neueste Version." -ForegroundColor Green
+            Write-host   
+    "         
+  ______      _    _      _           
+ |  ____|    | |  | |    | |          
+ | |__ ______| |__| | ___| |_ __  ___ 
+ |  __|______|  __  |/ _ | | '_ \/ __|
+ | |____     | |  | |  __| | |_) \__ \
+ |______|    |_|  |_|\___|_| .__/|___/
+                           | |        
+                           |_| 
+
+)
+    
+[system] Hey ich bin Emy und ich werde dir deine Aufgaben sehr vereinfachen!"
+    }
+}
+else {
+    Write-Host "Datei nicht gefunden: $filePath" -ForegroundColor Red
+    Write-Host "Dieses Programm wird jetzt geschlossen" -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    exit
+}
+
+# Menü anzeigen
+Write-Host "Bitte wählen Sie eine Option:"
+Write-Host "1. IP-Konfigurationen einsehen"
+Write-Host "2. Domain kontrollieren"
+
+# Eingabe einlesen
+$option = Read-Host "Option wählen"
+
+# Überprüfen, ob die Eingabe gültig ist
+if ($option -ne "1" -and $option -ne "2") {
+    Write-Host "Ungültige Option: $option" -ForegroundColor Red
+    Write-Host "Programm wird jetzt geschlossen" -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    exit
+}
+
+# Option ausführen
+switch ($option) {
+    "1" {
+        Write-Host "IP-Konfigurationen werden angezeigt"
+    }
+    "2" {
+        Write-Host "Domain wird kontrolliert"
+    }
+}
+
+# Warten, um Spamming zu vermeiden
+Start-Sleep -Seconds 2
